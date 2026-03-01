@@ -5,7 +5,7 @@ import urllib.parse
 import subprocess
 import shutil
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from config import BACKUP_ROOT, SERVER_PORT, STEAM_PATH
+from config import BACKUP_ROOT, SERVER_PORT, STEAM_PATH, user_config_file, pending_file
 
 class CalyRequestHandler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
@@ -56,6 +56,39 @@ class CalyRequestHandler(BaseHTTPRequestHandler):
                         })
                 except: pass
             self.wfile.write(json.dumps(backups).encode())
+
+        elif self.path == '/settings':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            config = {"semi_auto": False}
+            if os.path.exists(user_config_file):
+                try:
+                    with open(user_config_file, 'r', encoding='utf-8') as f:
+                        loaded = json.load(f)
+                        if isinstance(loaded, dict):
+                            config.update(loaded)
+                except:
+                    pass
+            self.wfile.write(json.dumps({"semi_auto": bool(config.get("semi_auto", False))}).encode())
+
+        elif self.path.startswith('/pending'):
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            pending_data = {"pending": False}
+            if os.path.exists(pending_file):
+                try:
+                    with open(pending_file, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        if isinstance(data, dict):
+                            data["pending"] = True
+                            pending_data = data
+                except:
+                    pass
+            self.wfile.write(json.dumps(pending_data).encode())
         else:
             self.send_response(404)
             self.end_headers()
@@ -108,6 +141,53 @@ class CalyRequestHandler(BaseHTTPRequestHandler):
                 else:
                     self.send_error(400)
             except: self.send_error(500)
+
+        elif self.path == '/settings':
+            try:
+                data = json.loads(post_data) if post_data else {}
+                current_config = {}
+                if os.path.exists(user_config_file):
+                    try:
+                        with open(user_config_file, 'r', encoding='utf-8') as f:
+                            loaded = json.load(f)
+                            if isinstance(loaded, dict):
+                                current_config = loaded
+                    except:
+                        current_config = {}
+                current_config["semi_auto"] = bool(data.get("semi_auto", False))
+                with open(user_config_file, 'w', encoding='utf-8') as f:
+                    json.dump(current_config, f, ensure_ascii=False)
+
+                self.send_response(200)
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(b'{"status": "saved"}')
+            except:
+                self.send_error(500)
+
+        elif self.path == '/pending/action':
+            try:
+                data = json.loads(post_data) if post_data else {}
+                action = data.get("action")
+
+                if os.path.exists(pending_file):
+                    try:
+                        os.remove(pending_file)
+                    except:
+                        pass
+
+                if action == "confirm":
+                    appid = data.get("appid")
+                    game_name = data.get("game_name")
+                    from monitor import do_backup
+                    threading.Thread(target=do_backup, args=(appid, game_name), daemon=True).start()
+
+                self.send_response(200)
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(b'{"status": "ok"}')
+            except:
+                self.send_error(500)
 
     def log_message(self, format, *args): return
 
