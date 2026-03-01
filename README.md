@@ -37,6 +37,7 @@ Agora com o novo sistema de <strong>Restore</strong>, você pode reverter para q
 | ✏️ **Gerenciamento Total** | Renomeie backups (ex: "Antes do Boss") ou delete snapshots antigos direto na interface. |
 | 🔔 **Notificações Nativas** | Feedback visual discreto via Windows Toast ao concluir operações. |
 | 🗃️ **Histórico Organizado** | Cria pastas timestamped para você voltar no tempo quando quiser. |
+| ⚙️ **Semi-Automático** | Exibe um modal de confirmação ao fechar o jogo para você decidir se deseja salvar. Nada é gravado sem sua aprovação. Controle na aba Configurações. |
 
 ---
 
@@ -58,15 +59,29 @@ Ao clicar, uma lista com todos os seus backups aparecerá, agora com os ícones 
 * **Deletar (🗑️):** Remova backups que não precisa mais.
 
 <div align="center">
-  <img src="https://i.imgur.com/w3NpTcM.png" alt="Menu de Restore" width="50%">
+  <img src="https://i.imgur.com/VyUo3gR.png" alt="Menu de Restore" width="50%">
 </div>
 
 ### 3. Confirmação Visual
 Pronto! O CalyRecall fará a substituição cirúrgica dos arquivos e te avisará quando estiver tudo seguro.
 
 <div align="center">
-  <img src="https://i.imgur.com/dD5YAs7.png" alt="Sucesso" width="50%">
+  <img src="https://i.imgur.com/6f02Bo1.png" alt="Sucesso" width="50%">
 </div>
+
+### 4. Semi-Automático (Opcional)
+Ao encerrar um jogo, o CalyRecall pode exibir um modal pedindo sua confirmação antes de salvar o snapshot.
+* **Ignorar:** Fecha o modal e nenhum backup é criado  
+* **Salvar:** Cria um backup com identificação do jogo e horário 
+
+<div align="center">
+  <img src="https://i.imgur.com/mgpkAQL.png" alt="Modal de Confirmação (Semi-Automático)" width="50%">
+</div>
+
+### Configurações
+Na aba Configurações do painel CalyRecall você encontra:
+– Modo Semi-Automático: alterna o fluxo que exibe o modal de confirmação  
+– O estado fica salvo entre sessões
 
 ---
 
