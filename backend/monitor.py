@@ -82,6 +82,20 @@ class BackupManager(threading.Thread):
             return int(val)
         except:
             return 0
+            
+    def force_backup(self):
+        # Chamada manual para backup do jogo atual ou último jogo
+        current = self.get_running_appid()
+        target = current if current > 0 else self.last_appid
+        
+        if target > 0:
+            game_name = get_game_name_global(target)
+            print(f"[CalyRecall] Hotkey acionada para {game_name}")
+            show_notification("CalyRecall", f"Quick-Save: {game_name}")
+            do_backup(target, game_name)
+        else:
+            print("[CalyRecall] Hotkey acionada mas nenhum jogo detectado")
+            show_notification("CalyRecall", "Nenhum jogo detectado para backup.")
 
     def stop(self):
         self.running = False
@@ -97,15 +111,20 @@ class BackupManager(threading.Thread):
 
                 game_name = get_game_name_global(self.last_appid)
 
-                semi_auto = False
+                backup_mode = "auto"
                 if os.path.exists(user_config_file):
                     try:
                         with open(user_config_file, 'r', encoding='utf-8') as f:
-                            semi_auto = json.load(f).get("semi_auto", False)
+                            cfg = json.load(f)
+                            # Migração/Compatibilidade
+                            if "backup_mode" in cfg:
+                                backup_mode = cfg["backup_mode"]
+                            elif cfg.get("semi_auto", False):
+                                backup_mode = "semi"
                     except:
-                        semi_auto = False
+                        pass
 
-                if semi_auto:
+                if backup_mode == "semi":
                     print(f"[CalyRecall] Modo Semi-Auto: Aguardando aprovação na UI para {game_name}")
                     try:
                         with open(pending_file, "w", encoding='utf-8') as f:
@@ -113,8 +132,10 @@ class BackupManager(threading.Thread):
                         show_notification("CalyRecall", f"Aguardando confirmação de backup para {game_name}.")
                     except:
                         pass
-                else:
+                elif backup_mode == "auto":
                     do_backup(self.last_appid, game_name)
+                else:
+                    print(f"[CalyRecall] Backup ignorado (Modo: {backup_mode})")
 
                 self.was_running = False
 
