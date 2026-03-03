@@ -19,7 +19,7 @@
 <p align="left">
 O <strong>CalyRecall</strong> é um plugin de segurança silencioso. Ele monitora sua sessão de jogo em tempo real. No momento em que você fecha um jogo, o protocolo <em>Recall</em> é ativado, criando um snapshot instantâneo dos seus dados mais valiosos.
 <br><br>
-Agora com o novo sistema de <strong>Restore</strong>, você pode reverter para qualquer ponto da história com apenas dois cliques. Nunca mais perca um save, uma configuração ou um status de plugin.
+Agora com o novo sistema de <strong>Restore e Portabilidade</strong>, você tem controle absoluto sobre os seus saves, podendo reverter para qualquer ponto da história com apenas dois cliques ou exportar tudo com segurança. Nunca mais perca um progresso, uma configuração ou um status de plugin.
 </p>
 
 </div>
@@ -30,64 +30,76 @@ Agora com o novo sistema de <strong>Restore</strong>, você pode reverter para q
 
 | Recurso | Descrição |
 | :--- | :--- |
-| 🎮 **Game Awareness** |Identifica automaticamente qual jogo foi fechado, exibindo o **Nome Real** e a **Capa Oficial** na lista de backups. |
+| 🎮 **Game Awareness** | Identifica automaticamente qual jogo foi fechado, exibindo o **Nome Real** e a **Capa Oficial** na lista de backups. |
 | 🕵️ **Monitoramento Passivo** | Detecta automaticamente o encerramento de processos de jogos (AppID). Zero impacto na performance. |
+| ⌨️ **Quick-Save Global** | Permite gravar um atalho (bind) para forçar um backup instantâneo a qualquer momento, mesmo com a Steam minimizada. |
 | 📦 **Backup Cirúrgico** | Salva apenas o que importa (userdata, stats, cache, configs), ignorando o "lixo" temporário. |
+| 🗜️ **Portabilidade (.zip)** | Exporte ou Importe todos os seus backups compactados de forma segura em um único arquivo. |
+| 📊 **Dashboard Integrado** | Pílula de estatísticas em tempo real mostrando o peso dos saves, contagem de backups e espaço livre no SSD/HD. |
 | 🔄 **Time Travel (Restore)** | Restaure backups antigos instantaneamente através de uma interface visual integrada. |
-| ✏️ **Gerenciamento Total** | Renomeie backups (ex: "Antes do Boss") ou delete snapshots antigos direto na interface. |
+| 🎚️ **Controle de Modos** | Alterne de forma fluida entre os modos **Automático**, **Semi-Auto** (com aprovação via modal) e **Manual**. |
 | 🔔 **Notificações Nativas** | Feedback visual discreto via Windows Toast ao concluir operações. |
-| 🗃️ **Histórico Organizado** | Cria pastas timestamped para você voltar no tempo quando quiser. |
-| ⚙️ **Semi-Automático** | Exibe um modal de confirmação ao fechar o jogo para você decidir se deseja salvar. Nada é gravado sem sua aprovação. Controle na aba Configurações. |
 
 ---
 
-## 🕰️ Como usar o Restore
+## 🕰️ O Ecossistema CalyRecall
 
-O CalyRecall agora possui uma interface visual dedicada. Veja como é simples voltar no tempo:
+O CalyRecall agora possui um verdadeiro painel de controle embutido na sua Steam. Veja como dominar a ferramenta:
 
 ### 1. O Botão de Acesso
-No canto inferior direito da sua Steam, procure pelo **Botão Roxo com Ícone de Relógio**. Ele é o seu portal para os backups.
+No canto inferior direito da sua Steam, procure pelo **Botão Roxo com Ícone de Relógio**. Ele é o seu portal para o protocolo.
 
 <div align="center">
   <img src="https://i.imgur.com/gReSM17.png" alt="Botão CalyRecall" width="35%">
 </div>
 
-### 2. Gerenciamento Visual
-Ao clicar, uma lista com todos os seus backups aparecerá, agora com os ícones dos jogos!
+### 2. Gerenciamento Visual (Restore)
+Ao clicar, uma lista com todos os seus backups aparecerá, acompanhada das capas oficiais dos jogos!
 * **Restaurar:** Clique no botão grande para voltar no tempo.
-* **Renomear (✏️):** Dê apelidos aos seus backups para lembrar de momentos importantes.
-* **Deletar (🗑️):** Remova backups que não precisa mais.
+* **Renomear (✏️):** Dê apelidos aos seus backups (ex: "Antes do Boss Final").
+* **Deletar (🗑️):** Remova snapshots antigos.
 
 <div align="center">
   <img src="https://i.imgur.com/VyUo3gR.png" alt="Menu de Restore" width="50%">
 </div>
 
-### 3. Confirmação Visual
-Pronto! O CalyRecall fará a substituição cirúrgica dos arquivos e te avisará quando estiver tudo seguro.
+### 3. Pílula de Estatísticas em Tempo Real
+Para você ter controle total do seu hardware, o painel agora exibe uma pílula informativa inteligente que lê os dados do seu computador.
+* **Peso Total:** Descubra quantos GB/MB seus saves estão ocupando.
+* **Contador:** O número exato de snapshots ativos.
+* **Armazenamento:** Monitoramento ao vivo do espaço livre do seu SSD/HDD.
 
 <div align="center">
-  <img src="https://i.imgur.com/6f02Bo1.png" alt="Sucesso" width="50%">
+  <img src="https://i.imgur.com/ZumMQRk.png" width="50%">
 </div>
 
-### 4. Semi-Automático (Opcional)
-Ao encerrar um jogo, o CalyRecall pode exibir um modal pedindo sua confirmação antes de salvar o snapshot.
-– Ignorar: fecha o modal e nenhum backup é criado  
-– Salvar: cria um backup com identificação do jogo e horário
+### 4. Controle de Modos e Quick-Save
+Na aba **Configurações**, você encontra a nova barra deslizante para selecionar exatamente como o protocolo deve agir:
+
+* **Automático:** Criado de forma silenciosa e invisível ao fechar o jogo.
+* **Semi-Auto:** Exibe um modal perguntando se você deseja salvar aquele momento.
+* **Manual (Quick-Save):** Você define uma *bind* de teclado e faz o backup instantaneamente durante a gameplay sem precisar abrir a Steam.
 
 <div align="center">
-  <img src="images/semiauto-modal-placeholder.png" alt="Modal de Confirmação (Semi-Automático)" width="50%">
+  <img src="https://i.imgur.com/XNr34R7.png" alt="Seleção de Modos" width="50%">
 </div>
 
-### Configurações
-Na aba Configurações do painel CalyRecall você encontra:
-– Modo Semi-Automático: alterna o fluxo que exibe o modal de confirmação  
-– O estado fica salvo entre sessões
+### 5. Portabilidade Segura (.zip)
+Vai formatar o PC ou jogar em outra máquina? A nova função de Portabilidade permite que você compacte toda a sua linha do tempo de backups em um único arquivo `.zip` com um clique, e faça a importação de volta com a mesma facilidade, acompanhado de barras de progresso visuais.
+
+<div align="center">
+  <img src="https://i.imgur.com/tv7PENd.png" width="50%">
+</div>
+
+<div align="center">
+  <img src="https://i.imgur.com/huhnr1i.png" width="50%">
+</div>
 
 ---
 
 ## 🛡️ O Protocolo de Segurança (Backup Targets)
 
-O **CalyRecall** foi configurado para "congelar" o estado das seguintes pastas críticas:
+O **CalyRecall** foi configurado para "congelar" o estado das seguintes pastas críticas de forma cirúrgica:
 
 > **📂 1. Userdata (`/userdata`)**
 > * Contém todos os seus saves locais, configurações de controle e preferências de nuvem.
@@ -113,8 +125,8 @@ A forma mais fácil, bonita e segura de instalar.
 1. Vá até a aba **Releases** aqui no GitHub.
 2. Baixe o arquivo `calyrecall-installer.exe`.
 3. Execute o arquivo.
-4. Siga os passos na tela e clique em **INSTALAR** e configure sua instalação.
-   *(O instalador fechará a Steam automaticamente para garantir uma instalação limpa).*
+4. Siga os passos na tela e configure sua instalação.
+   *(O instalador fechará a Steam automaticamente para garantir uma injeção limpa).*
 
 <div align="center">
   <img src="https://i.imgur.com/ihobPo8.png" alt="Preview Tela Inicial" width="45%">
@@ -124,16 +136,14 @@ A forma mais fácil, bonita e segura de instalar.
 ### ⚙️ Instalação Personalizada
 O instalador do CalyRecall é inteligente e permite flexibilidade total:
 
-* **Steam em outro local?** O instalador tenta detectar sua Steam automaticamente. Caso você tenha instalado a Steam em um HD/SSD secundário (ex: `D:\Games\Steam`), você pode selecionar a pasta correta manualmente clicando no ícone de pasta 📂.
-
-* **Pasta de Backups Personalizada:**
-  Por padrão, os backups ficam dentro da pasta do plugin. Se você tem pouco espaço no disco principal ou prefere salvar seus saves em outro lugar (como uma nuvem ou HD/SSD externo), você pode escolher uma **Pasta de Backup Personalizada** durante a instalação.
+* **Steam em outro local?** O instalador tenta detectar sua Steam automaticamente. Caso você a tenha em um diretório diferente (ex: `D:\Games\Steam`), você pode selecionar a pasta manualmente.
+* **Pasta de Backups Externa:** Você tem pouco espaço no disco principal? Durante a instalação, você pode escolher uma **Pasta de Backup Personalizada** (como um HD externo ou pasta do Google Drive) e o protocolo irá salvar os dados diretamente lá.
 
 ---
 
 ### 🛠️ Método Manual (Avançado)
 
-Caso prefira não usar o instalador:
+Caso prefira extrair os arquivos manualmente:
 
 1. Baixe a última versão do código fonte (ZIP).
 2. Extraia a pasta `CalyRecall` para dentro do diretório de plugins:
@@ -144,7 +154,7 @@ Caso prefira não usar o instalador:
 
 ## 📂 Onde ficam meus backups?
 
-Se você usou a instalação padrão, seus snapshots ficam seguros dentro da pasta do plugin:
+Se você usou a instalação padrão, seus snapshots ficam seguros dentro da própria pasta do plugin:
 
 ```text
 Steam/
