@@ -59,14 +59,14 @@ Ao clicar, uma lista com todos os seus backups aparecerá, agora com os ícones 
 * **Deletar (🗑️):** Remova backups que não precisa mais.
 
 <div align="center">
-  <img src="https://i.imgur.com/w3NpTcM.png" alt="Menu de Restore" width="50%">
+  <img src="https://i.imgur.com/VyUo3gR.png" alt="Menu de Restore" width="50%">
 </div>
 
 ### 3. Confirmação Visual
 Pronto! O CalyRecall fará a substituição cirúrgica dos arquivos e te avisará quando estiver tudo seguro.
 
 <div align="center">
-  <img src="https://i.imgur.com/dD5YAs7.png" alt="Sucesso" width="50%">
+  <img src="https://i.imgur.com/6f02Bo1.png" alt="Sucesso" width="50%">
 </div>
 
 ### 4. Semi-Automático (Opcional)
