@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -58,9 +58,13 @@ namespace CalyRecallNative.ViewModels
         public bool HasNoBackups => System.Windows.Data.CollectionViewSource.GetDefaultView(Backups).IsEmpty;
 
         public bool HasSelectedItems => Backups.Any(b => b.IsSelected);
-        public string DeleteSelectedText => $"Apagar {Backups.Count(b => b.IsSelected)} Selecionados";
+        public string DeleteSelectedText => string.Format(
+            (string)System.Windows.Application.Current.TryFindResource("Restore_DeleteSelectedText") ?? "Apagar {0} Selecionados",
+            Backups.Count(b => b.IsSelected));
 
-        public string DeleteModalMessage => SelectedDeleteItem != null ? SelectedDeleteItem.GameName : $"{Backups.Count(b => b.IsSelected)} backups selecionados";
+        public string DeleteModalMessage => SelectedDeleteItem != null ? SelectedDeleteItem.GameName : string.Format(
+            (string)System.Windows.Application.Current.TryFindResource("Restore_DeleteModalMultiple") ?? "{0} backups selecionados",
+            Backups.Count(b => b.IsSelected));
 
         private void OnBackupItemPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -281,15 +285,20 @@ namespace CalyRecallNative.ViewModels
                 _backupManager.NotifyBackupDeleted();
                 
                 var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                var message = itemsToDelete.Count > 1 ? $"{itemsToDelete.Count} backups apagados com sucesso!" : "Backup apagado com sucesso!";
-                mainWindow?.ShowCustomToast("Sucesso", message, Wpf.Ui.Controls.SymbolRegular.Delete24);
+                var message = itemsToDelete.Count > 1
+                    ? string.Format((string)System.Windows.Application.Current.TryFindResource("Restore_ToastDeleteSuccessMultiple") ?? "{0} backups apagados com sucesso!", itemsToDelete.Count)
+                    : (string)System.Windows.Application.Current.TryFindResource("Restore_ToastDeleteSuccessSingle") ?? "Backup apagado com sucesso!";
+                var successTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastSuccessTitle") ?? "Sucesso";
+                mainWindow?.ShowCustomToast(successTitle, message, Wpf.Ui.Controls.SymbolRegular.Delete24);
             }
             catch (Exception ex)
             {
                 try
                 {
                     var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                    mainWindow?.ShowCustomToast("Erro", "NÃ£o foi possÃ­vel apagar.", Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
+                    var errTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastErrorTitle") ?? "Erro";
+                    var errDesc = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastDeleteErrorDesc") ?? "Não foi possível apagar.";
+                    mainWindow?.ShowCustomToast(errTitle, errDesc, Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
                 }
                 catch { }
             }
@@ -387,7 +396,9 @@ namespace CalyRecallNative.ViewModels
                     if (Directory.Exists(newPath))
                     {
                         var trayService = App.GetService<TrayIconService>();
-                        trayService?.ShowNotification("Erro", "JÃ¡ existe uma pasta com este nome.");
+                        var errTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastErrorTitle") ?? "Erro";
+                        var errDesc = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastEditFolderExistsDesc") ?? "Já existe uma pasta com este nome.";
+                        trayService?.ShowNotification(errTitle, errDesc);
                         return;
                     }
                     Directory.Move(oldPath, newPath);
@@ -410,7 +421,9 @@ namespace CalyRecallNative.ViewModels
             catch (Exception ex)
             {
                 var trayService = App.GetService<TrayIconService>();
-                trayService?.ShowNotification("Erro ao Editar", "A pasta pode estar aberta ou em uso.");
+                var editErrTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastEditErrorTitle") ?? "Erro ao Editar";
+                var editErrDesc = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastEditErrorDesc") ?? "A pasta pode estar aberta ou em uso.";
+                trayService?.ShowNotification(editErrTitle, editErrDesc);
                 try
                 {
                     File.AppendAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalyRecall_FatalCrash.txt"), "EditError: " + ex.ToString() + "\n");
@@ -459,7 +472,8 @@ namespace CalyRecallNative.ViewModels
                     
                     IsZipProgressModalOpen = false;
                     var successMsg = (string)System.Windows.Application.Current.TryFindResource("Zip_ExportSuccess") ?? "Sucesso";
-                    App.GetService<TrayIconService>()?.ShowNotification("ExportaÃ§Ã£o", successMsg);
+                    var exportTitle = (string)System.Windows.Application.Current.TryFindResource("Zip_ExportTitle") ?? "Exportação";
+                    App.GetService<TrayIconService>()?.ShowNotification(exportTitle, successMsg);
                 }
                 catch (OperationCanceledException)
                 {
@@ -468,7 +482,9 @@ namespace CalyRecallNative.ViewModels
                 catch (Exception ex)
                 {
                     IsZipProgressModalOpen = false;
-                    App.GetService<TrayIconService>()?.ShowNotification("Erro", "Falha ao exportar.");
+                    var expErrTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastErrorTitle") ?? "Erro";
+                    var expErrDesc = (string)System.Windows.Application.Current.TryFindResource("Zip_ExportErrorDesc") ?? "Falha ao exportar.";
+                    App.GetService<TrayIconService>()?.ShowNotification(expErrTitle, expErrDesc);
                     try { File.AppendAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalyRecall_FatalCrash.txt"), "ExportError: " + ex.ToString() + "\n"); } catch { }
                 }
             }
@@ -496,7 +512,8 @@ namespace CalyRecallNative.ViewModels
                     
                     IsZipProgressModalOpen = false;
                     var successMsg = (string)System.Windows.Application.Current.TryFindResource("Zip_ImportSuccess") ?? "Sucesso";
-                    App.GetService<TrayIconService>()?.ShowNotification("ImportaÃ§Ã£o", successMsg);
+                    var importTitle = (string)System.Windows.Application.Current.TryFindResource("Zip_ImportTitle") ?? "Importação";
+                    App.GetService<TrayIconService>()?.ShowNotification(importTitle, successMsg);
                 }
                 catch (OperationCanceledException)
                 {
@@ -505,7 +522,9 @@ namespace CalyRecallNative.ViewModels
                 catch (Exception ex)
                 {
                     IsZipProgressModalOpen = false;
-                    App.GetService<TrayIconService>()?.ShowNotification("Erro", "Falha ao importar.");
+                    var impErrTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastErrorTitle") ?? "Erro";
+                    var impErrDesc = (string)System.Windows.Application.Current.TryFindResource("Zip_ImportErrorDesc") ?? "Falha ao importar.";
+                    App.GetService<TrayIconService>()?.ShowNotification(impErrTitle, impErrDesc);
                     try { File.AppendAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalyRecall_FatalCrash.txt"), "ImportError: " + ex.ToString() + "\n"); } catch { }
                 }
             }

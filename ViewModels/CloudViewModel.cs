@@ -91,7 +91,9 @@ namespace CalyRecallNative.ViewModels
         public bool HasNoCloudBackups => System.Windows.Data.CollectionViewSource.GetDefaultView(CloudBackups).IsEmpty;
 
         public bool HasSelectedItems => CloudBackups.Any(b => b.IsSelected);
-        public string SyncSelectedText => $"Enviar {CloudBackups.Count(b => b.IsSelected)} Selecionados";
+        public string SyncSelectedText => string.Format(
+            (string)System.Windows.Application.Current.TryFindResource("Cloud_SyncSelectedText") ?? "Enviar {0} Selecionados",
+            CloudBackups.Count(b => b.IsSelected));
 
         private void OnBackupItemPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -304,13 +306,15 @@ namespace CalyRecallNative.ViewModels
             if (!IsAuthenticated)
             {
                 var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                mainWindow?.ShowCustomToast("Nuvem", "Conecte sua conta do Google Drive primeiro.", Wpf.Ui.Controls.SymbolRegular.Warning24);
+                var warnTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastWarningTitle") ?? "Nuvem";
+                var warnDesc = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastWarningDesc") ?? "Conecte sua conta do Google Drive primeiro.";
+                mainWindow?.ShowCustomToast(warnTitle, warnDesc, Wpf.Ui.Controls.SymbolRegular.Warning24);
                 return;
             }
 
             _uploadCts = new CancellationTokenSource();
             IsUploadModalOpen = true;
-            UploadProgressTitle = "Preparando arquivo...";
+            UploadProgressTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_UploadPreparing") ?? "Preparando arquivo...";
             UploadProgressValue = 0;
 
             string tempZipPath = Path.Combine(Path.GetTempPath(), $"CalyRecall_Backups_{DateTime.Now:yyyy-MM-dd}.zip");
@@ -347,7 +351,9 @@ namespace CalyRecallNative.ViewModels
                         
                         App.Current.Dispatcher.BeginInvoke(new Action(() => 
                         {
-                            UploadProgressTitle = $"Compactando arquivos ({i + 1}/{allFiles.Count})...";
+                            UploadProgressTitle = string.Format(
+                                (string)System.Windows.Application.Current.TryFindResource("Cloud_UploadCompressing") ?? "Compactando arquivos ({0}/{1})...",
+                                i + 1, allFiles.Count);
                             UploadProgressValue = (double)(i + 1) / allFiles.Count * 100;
                         }));
                     }
@@ -355,7 +361,7 @@ namespace CalyRecallNative.ViewModels
 
                 if (_uploadCts.IsCancellationRequested) return;
 
-                UploadProgressTitle = "Enviando para o Google Drive...";
+                UploadProgressTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_UploadSending") ?? "Enviando para o Google Drive...";
                 UploadProgressValue = 0;
 
                 long totalBytes = new FileInfo(tempZipPath).Length;
@@ -376,7 +382,9 @@ namespace CalyRecallNative.ViewModels
                 {
                     IsUploadModalOpen = false;
                     var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                    mainWindow?.ShowCustomToast("Erro", "Falha ao enviar os backups.", Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
+                    var errTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastErrorTitle") ?? "Erro";
+                    var errDesc = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastUploadErrorDesc") ?? "Falha ao enviar os backups.";
+                    mainWindow?.ShowCustomToast(errTitle, errDesc, Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
                     return;
                 }
 
@@ -390,7 +398,9 @@ namespace CalyRecallNative.ViewModels
                 if (!_uploadCts.IsCancellationRequested)
                 {
                     var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                    mainWindow?.ShowCustomToast("Nuvem", "Backups sincronizados com sucesso!", Wpf.Ui.Controls.SymbolRegular.Checkmark24);
+                    var syncTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastWarningTitle") ?? "Nuvem";
+                    var syncDesc = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastSyncSuccessDesc") ?? "Backups sincronizados com sucesso!";
+                    mainWindow?.ShowCustomToast(syncTitle, syncDesc, Wpf.Ui.Controls.SymbolRegular.Checkmark24);
                 }
             }
             catch (OperationCanceledException)
@@ -403,7 +413,9 @@ namespace CalyRecallNative.ViewModels
                 IsUploadModalOpen = false;
                 if (File.Exists(tempZipPath)) File.Delete(tempZipPath);
                 var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                mainWindow?.ShowCustomToast("Erro", "Falha ao processar os backups.", Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
+                var procErrTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastErrorTitle") ?? "Erro";
+                var procErrDesc = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastProcessErrorDesc") ?? "Falha ao processar os backups.";
+                mainWindow?.ShowCustomToast(procErrTitle, procErrDesc, Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
                 try { File.AppendAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalyRecall_FatalCrash.txt"), "CloudUploadError: " + ex.ToString() + "\n"); } catch { }
             }
         }
@@ -414,7 +426,9 @@ namespace CalyRecallNative.ViewModels
             if (!IsAuthenticated)
             {
                 var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                mainWindow?.ShowCustomToast("Nuvem", "Conecte sua conta do Google Drive primeiro.", Wpf.Ui.Controls.SymbolRegular.Warning24);
+                var warnTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastWarningTitle") ?? "Nuvem";
+                var warnDesc = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastWarningDesc") ?? "Conecte sua conta do Google Drive primeiro.";
+                mainWindow?.ShowCustomToast(warnTitle, warnDesc, Wpf.Ui.Controls.SymbolRegular.Warning24);
                 return;
             }
 
@@ -423,7 +437,9 @@ namespace CalyRecallNative.ViewModels
             {
                 _uploadCts = new CancellationTokenSource();
                 IsUploadModalOpen = true;
-                UploadProgressTitle = $"Enviando {backup.GameName}...";
+                UploadProgressTitle = string.Format(
+                    (string)System.Windows.Application.Current.TryFindResource("Cloud_UploadSingleSending") ?? "Enviando {0}...",
+                    backup.GameName);
                 UploadProgressValue = 0;
 
                 try
@@ -450,12 +466,20 @@ namespace CalyRecallNative.ViewModels
                     if (uploaded)
                     {
                         var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                        mainWindow?.ShowCustomToast("Sucesso", $"{backup.GameName} sincronizado com a nuvem!", Wpf.Ui.Controls.SymbolRegular.Checkmark24);
+                        var sucTitle = (string)System.Windows.Application.Current.TryFindResource("Restore_ToastSuccessTitle") ?? "Sucesso";
+                        var sucDesc = string.Format(
+                            (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastSingleSyncSuccessDesc") ?? "{0} sincronizado com a nuvem!",
+                            backup.GameName);
+                        mainWindow?.ShowCustomToast(sucTitle, sucDesc, Wpf.Ui.Controls.SymbolRegular.Checkmark24);
                     }
                     else if (!_uploadCts.IsCancellationRequested)
                     {
                         var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                        mainWindow?.ShowCustomToast("Erro", $"Falha ao enviar {backup.GameName}.", Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
+                        var errTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastErrorTitle") ?? "Erro";
+                        var errDesc = string.Format(
+                            (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastSingleUploadErrorDesc") ?? "Falha ao enviar {0}.",
+                            backup.GameName);
+                        mainWindow?.ShowCustomToast(errTitle, errDesc, Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
                     }
                 }
                 catch
@@ -463,7 +487,11 @@ namespace CalyRecallNative.ViewModels
                     IsUploadModalOpen = false;
                     if (File.Exists(tempZipPath)) File.Delete(tempZipPath);
                     var mainWindow = App.GetService<CalyRecallNative.Views.MainWindow>();
-                    mainWindow?.ShowCustomToast("Erro", $"Falha ao compactar {backup.GameName}.", Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
+                    var compErrTitle = (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastErrorTitle") ?? "Erro";
+                    var compErrDesc = string.Format(
+                        (string)System.Windows.Application.Current.TryFindResource("Cloud_ToastSingleCompressErrorDesc") ?? "Falha ao compactar {0}.",
+                        backup.GameName);
+                    mainWindow?.ShowCustomToast(compErrTitle, compErrDesc, Wpf.Ui.Controls.SymbolRegular.ErrorCircle24);
                 }
             }
         }

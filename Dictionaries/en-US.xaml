@@ -4,6 +4,7 @@
     <system:String x:Key="Nav_Dashboard">Dashboard</system:String>
     <system:String x:Key="Nav_Backups">Backups</system:String>
     <system:String x:Key="Nav_Settings">Settings</system:String>
+    <system:String x:Key="Nav_Cloud">Cloud</system:String>
 
     <system:String x:Key="Dashboard_Welcome">Welcome to CalyRecall</system:String>
     <system:String x:Key="Dashboard_TotalBackupsTitle">Saved Backups</system:String>
@@ -29,6 +30,16 @@
     <system:String x:Key="Restore_RestoreBtn">Restore</system:String>
     <system:String x:Key="Restore_EditTooltip">Edit</system:String>
     <system:String x:Key="Restore_DeleteTooltip">Delete</system:String>
+    <system:String x:Key="Restore_DeleteSelectedText">Delete {0} Selected</system:String>
+    <system:String x:Key="Restore_DeleteModalMultiple">{0} selected backups</system:String>
+    <system:String x:Key="Restore_ToastDeleteSuccessMultiple">{0} backups deleted successfully!</system:String>
+    <system:String x:Key="Restore_ToastDeleteSuccessSingle">Backup deleted successfully!</system:String>
+    <system:String x:Key="Restore_ToastSuccessTitle">Success</system:String>
+    <system:String x:Key="Restore_ToastErrorTitle">Error</system:String>
+    <system:String x:Key="Restore_ToastDeleteErrorDesc">Could not delete.</system:String>
+    <system:String x:Key="Restore_ToastEditFolderExistsDesc">A folder with this name already exists.</system:String>
+    <system:String x:Key="Restore_ToastEditErrorTitle">Edit Error</system:String>
+    <system:String x:Key="Restore_ToastEditErrorDesc">The folder may be open or in use.</system:String>
 
     <system:String x:Key="Settings_Title">Settings</system:String>
     <system:String x:Key="Settings_LanguageTitle">Language</system:String>
@@ -36,27 +47,42 @@
     <system:String x:Key="Settings_FolderTitle">Backups Folder</system:String>
     <system:String x:Key="Settings_FolderDesc">Location where backups will be saved.</system:String>
     <system:String x:Key="Settings_BrowseBtn">Browse</system:String>
+    <system:String x:Key="Settings_SelectFolderDialog">Select the Backups folder</system:String>
     <system:String x:Key="Settings_ModeTitle">CalyRecall Mode</system:String>
     <system:String x:Key="Settings_ModeDesc">Choose between Automatic or Semi-automatic.</system:String>
     <system:String x:Key="Settings_HotkeyTitle">Backup Hotkey</system:String>
     <system:String x:Key="Settings_HotkeyDesc">Keyboard shortcut for Semi-automatic mode.</system:String>
     <system:String x:Key="Settings_LudusaviTitle">Game Database</system:String>
-    <system:String x:Key="Settings_LudusaviDesc">Updates the internal database used to automatically locate game saves.</system:String>
+    <system:String x:Key="Settings_LudusaviDesc">Updates the internal database used to automatically locate game saves. This database is kindly provided and maintained by the open-source project Ludusavi (mtkennerly).</system:String>
     <system:String x:Key="Settings_LudusaviBtn">Update Database</system:String>
 
-    <system:String x:Key="Cloud_Title">Cloud (Google Drive)</system:String>
+    <system:String x:Key="Cloud_Title">Google Drive</system:String>
     <system:String x:Key="Cloud_Account">Connected Account</system:String>
     <system:String x:Key="Cloud_Storage">Google Drive Storage</system:String>
-    <system:String x:Key="Cloud_SyncActions">Sync Actions</system:String>
-    <system:String x:Key="Cloud_SyncAll">Sync All Backups</system:String>
+    <system:String x:Key="Cloud_SyncActions">Upload Actions</system:String>
+    <system:String x:Key="Cloud_SyncAll">Upload All Backups</system:String>
     <system:String x:Key="Cloud_ConnectBtn">Connect Google Drive</system:String>
     <system:String x:Key="Cloud_DisconnectBtn">Disconnect</system:String>
     <system:String x:Key="Cloud_UploadBtn">Upload to Cloud</system:String>
+    <system:String x:Key="Cloud_SyncSelectedText">Upload {0} Selected</system:String>
+    <system:String x:Key="Cloud_UploadPreparing">Preparing file...</system:String>
+    <system:String x:Key="Cloud_UploadCompressing">Compressing files ({0}/{1})...</system:String>
+    <system:String x:Key="Cloud_UploadSending">Uploading to Google Drive...</system:String>
+    <system:String x:Key="Cloud_UploadSingleSending">Uploading {0}...</system:String>
+    <system:String x:Key="Cloud_ToastUploadErrorDesc">Failed to upload backups.</system:String>
+    <system:String x:Key="Cloud_ToastSyncSuccessDesc">Backups synced successfully!</system:String>
+    <system:String x:Key="Cloud_ToastProcessErrorDesc">Failed to process backups.</system:String>
+    <system:String x:Key="Cloud_ToastSingleSyncSuccessDesc">{0} synced to cloud!</system:String>
+    <system:String x:Key="Cloud_ToastSingleUploadErrorDesc">Failed to upload {0}.</system:String>
+    <system:String x:Key="Cloud_ToastSingleCompressErrorDesc">Failed to compress {0}.</system:String>
 
     <system:String x:Key="MainWindow_DetectedClose">Game exit detected</system:String>
     <system:String x:Key="MainWindow_SaveNow">Save Backup Now?</system:String>
     <system:String x:Key="MainWindow_DiscardBtn">Discard</system:String>
     <system:String x:Key="MainWindow_SaveBackupBtn">Save Backup</system:String>
+    <system:String x:Key="MainWindow_StatusConnected">v3.0 - Connected</system:String>
+    <system:String x:Key="MainWindow_StatusDisconnected">v3.0 - Disconnected</system:String>
+
     <system:String x:Key="Restore_ModalRestoreTitle">Restore Backup</system:String>
     <system:String x:Key="Restore_CancelBtn">Cancel</system:String>
     <system:String x:Key="Restore_RestoringTitle">Restoring Backup...</system:String>
@@ -71,6 +97,14 @@
     <system:String x:Key="Restore_EditFolderLabel">Folder Name</system:String>
     <system:String x:Key="Restore_SaveBtn">Save</system:String>
     <system:String x:Key="Zip_CancelBtn">Cancel</system:String>
+    <system:String x:Key="Zip_ProgressTitle_Export">Exporting...</system:String>
+    <system:String x:Key="Zip_ProgressTitle_Import">Importing...</system:String>
+    <system:String x:Key="Zip_ExportSuccess">Backups exported successfully!</system:String>
+    <system:String x:Key="Zip_ExportTitle">Export</system:String>
+    <system:String x:Key="Zip_ExportErrorDesc">Failed to export.</system:String>
+    <system:String x:Key="Zip_ImportSuccess">Backup imported successfully!</system:String>
+    <system:String x:Key="Zip_ImportTitle">Import</system:String>
+    <system:String x:Key="Zip_ImportErrorDesc">Failed to import.</system:String>
 
     <system:String x:Key="Cloud_ToastConnectedTitle">Connected</system:String>
     <system:String x:Key="Cloud_ToastConnectedDesc">Account connected successfully!</system:String>

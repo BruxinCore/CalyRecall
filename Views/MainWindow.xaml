@@ -48,7 +48,7 @@
                             <ui:SymbolIcon Symbol="History24" />
                         </ui:NavigationViewItem.Icon>
                     </ui:NavigationViewItem>
-                    <ui:NavigationViewItem Content="Nuvem" TargetPageType="{x:Type pages:CloudPage}">
+                    <ui:NavigationViewItem Content="{DynamicResource Nav_Cloud}" TargetPageType="{x:Type pages:CloudPage}">
                         <ui:NavigationViewItem.Icon>
                             <ui:SymbolIcon Symbol="Cloud24" />
                         </ui:NavigationViewItem.Icon>

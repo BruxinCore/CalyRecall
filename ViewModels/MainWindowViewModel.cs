@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -149,13 +149,13 @@ namespace CalyRecallNative.ViewModels
         {
             new NavigationViewItem()
             {
-                Content = System.Windows.Application.Current.TryFindResource("Nav_Dashboard") as string ?? "InÃ­cio",
+                Content = System.Windows.Application.Current.TryFindResource("Nav_Dashboard") as string ?? "Início",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
                 TargetPageType = typeof(Views.Pages.DashboardPage)
             },
             new NavigationViewItem()
             {
-                Content = System.Windows.Application.Current.TryFindResource("Notification_BackupsTitle") as string ?? "Backups",
+                Content = System.Windows.Application.Current.TryFindResource("Nav_Backups") as string ?? "Backups",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.History24 },
                 TargetPageType = typeof(Views.Pages.RestorePage)
             }
@@ -166,7 +166,7 @@ namespace CalyRecallNative.ViewModels
         {
             new NavigationViewItem()
             {
-                Content = "Settings",
+                Content = System.Windows.Application.Current.TryFindResource("Nav_Settings") as string ?? "Configurações",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
                 TargetPageType = typeof(Views.Pages.SettingsPage)
             }
