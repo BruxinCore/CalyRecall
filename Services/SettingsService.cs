@@ -42,7 +42,6 @@ namespace CalyRecallNative.Services
 
         public void Save()
         {
-            System.IO.File.AppendAllText("save_log.txt", "SettingsService.Save called with: " + (Config.QuickSaveHotkey ?? "null") + "\n");
             var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
             File.WriteAllText(_configPath, json);
             SettingsChanged?.Invoke(this, EventArgs.Empty);

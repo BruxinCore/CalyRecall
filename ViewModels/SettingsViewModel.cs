@@ -62,7 +62,6 @@ namespace CalyRecallNative.ViewModels
         [RelayCommand]
         private void SaveSettings()
         {
-            System.IO.File.AppendAllText("save_log.txt", "SettingsViewModel.SaveSettings called with: " + (QuickSaveHotkey ?? "null") + "\n");
             _settingsService.Config.BackupFolder = BackupFolder;
             _settingsService.Config.Mode = SelectedMode;
             _settingsService.Config.QuickSaveHotkey = QuickSaveHotkey;

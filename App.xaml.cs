@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
@@ -71,21 +72,42 @@ namespace CalyRecallNative
         private void ApplyLanguage(string languageCode)
         {
             if (string.IsNullOrEmpty(languageCode)) languageCode = "pt-BR";
-            
-            var dict = new System.Windows.ResourceDictionary
-            {
-                Source = new Uri($"Dictionaries/{languageCode}.xaml", UriKind.Relative)
-            };
 
-            var existingDict = Current.Resources.MergedDictionaries
-                .FirstOrDefault(d => d.Source != null && d.Source.OriginalString.Contains("/Dictionaries/"));
-
-            if (existingDict != null)
+            try
             {
-                Current.Resources.MergedDictionaries.Remove(existingDict);
+                var dict = new System.Windows.ResourceDictionary
+                {
+                    Source = new Uri($"pack://application:,,,/dictionaries/{languageCode.ToLowerInvariant()}.xaml", UriKind.Absolute)
+                };
+
+                var existingDict = Current.Resources.MergedDictionaries
+                    .FirstOrDefault(d => d.Source != null && d.Source.OriginalString.Contains("dictionaries/"));
+
+                if (existingDict != null)
+                {
+                    Current.Resources.MergedDictionaries.Remove(existingDict);
+                }
+
+                Current.Resources.MergedDictionaries.Add(dict);
+
+                try
+                {
+                    File.AppendAllText(
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalyRecall_LangDebug.txt"),
+                        $"[{DateTime.Now}] Language={languageCode}, Keys={dict.Count}, Total MergedDicts={Current.Resources.MergedDictionaries.Count}\n");
+                }
+                catch { }
             }
-
-            Current.Resources.MergedDictionaries.Add(dict);
+            catch (Exception ex)
+            {
+                try
+                {
+                    File.AppendAllText(
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalyRecall_LangDebug.txt"),
+                        $"[{DateTime.Now}] ERROR loading {languageCode}: {ex.Message}\n");
+                }
+                catch { }
+            }
         }
 
         private async void OnExit(object sender, ExitEventArgs e)
