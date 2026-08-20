@@ -1,0 +1,72 @@
+<Page x:Class="CalyRecallNative.Views.Pages.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Configurações"
+      PreviewMouseDown="OnPagePreviewMouseDown">
+
+    <Grid x:Name="RootGrid" Background="Transparent" Focusable="True" FocusVisualStyle="{x:Null}">
+        <StackPanel Margin="42,24,42,24">
+            <TextBlock Text="{DynamicResource Settings_Title}" FontSize="16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,24" />
+
+            <ui:CardControl CornerRadius="12" Margin="0,0,0,12" Icon="{ui:SymbolIcon Globe24}">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Settings_LanguageTitle}" FontSize="14" FontWeight="SemiBold" />
+                        <TextBlock Text="{DynamicResource Settings_LanguageDesc}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox ItemsSource="{Binding ViewModel.AvailableLanguages}" SelectedItem="{Binding ViewModel.SelectedLanguage, Mode=TwoWay}" Width="150" />
+            </ui:CardControl>
+
+            <ui:CardControl CornerRadius="12" Margin="0,0,0,12" Icon="{ui:SymbolIcon Folder24}">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Settings_FolderTitle}" FontSize="14" FontWeight="SemiBold" />
+                        <TextBlock Text="{DynamicResource Settings_FolderDesc}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox Text="{Binding ViewModel.BackupFolder, Mode=TwoWay}" IsReadOnly="True" Width="300" />
+                    <ui:Button Grid.Column="1" Content="{DynamicResource Settings_BrowseBtn}" Command="{Binding ViewModel.ChangeFolderCommand}" Margin="12,0,0,0" />
+                </Grid>
+            </ui:CardControl>
+
+            <ui:CardControl CornerRadius="12" Margin="0,0,0,12" Icon="{ui:SymbolIcon Settings24}">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Settings_ModeTitle}" FontSize="14" FontWeight="SemiBold" />
+                        <TextBlock Text="{DynamicResource Settings_ModeDesc}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox ItemsSource="{Binding ViewModel.AvailableModes}" SelectedItem="{Binding ViewModel.SelectedMode, Mode=TwoWay}" Width="150" />
+            </ui:CardControl>
+
+            <ui:CardControl CornerRadius="12" Icon="{ui:SymbolIcon Keyboard24}">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Settings_HotkeyTitle}" FontSize="14" FontWeight="SemiBold" />
+                        <TextBlock Text="{DynamicResource Settings_HotkeyDesc}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:TextBox x:Name="HotkeyTextBox" Text="{Binding ViewModel.QuickSaveHotkey, Mode=OneWay}" Width="150" PreviewKeyDown="OnHotkeyTextBoxPreviewKeyDown" />
+            </ui:CardControl>
+            <ui:CardControl CornerRadius="12" Margin="0,12,0,0" Icon="{ui:SymbolIcon Database24}">
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Settings_LudusaviTitle}" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Left" />
+                        <TextBlock Text="{DynamicResource Settings_LudusaviDesc}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Left" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:ProgressRing IsIndeterminate="True" Visibility="{Binding ViewModel.IsUpdatingDatabase, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,12,0" Width="20" Height="20" />
+                    <ui:Button Content="{DynamicResource Settings_LudusaviBtn}" Command="{Binding ViewModel.UpdateLudusaviCommand}" />
+                </StackPanel>
+            </ui:CardControl>
+        </StackPanel>
+    </Grid>
+</Page>

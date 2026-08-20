@@ -1,0 +1,157 @@
+﻿<Page x:Class="CalyRecallNative.Views.Pages.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="Início">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" /><Storyboard x:Key="EntranceAnimation">
+            <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="ContentTransform" Storyboard.TargetProperty="Y" From="15" To="0" Duration="0:0:0.5">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource EntranceAnimation}" />
+        </EventTrigger>
+    </Page.Triggers>
+
+    <Grid x:Name="ContentGrid" Margin="42,32,42,42">
+        <Grid.RenderTransform>
+            <TranslateTransform x:Name="ContentTransform" Y="15" />
+        </Grid.RenderTransform>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource Dashboard_Welcome}" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Margin="0,0,0,24" /><Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions><Border Grid.Column="0" Margin="0,0,12,0" Padding="20" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <Grid>
+                            <ui:SymbolIcon Symbol="Folder24" FontSize="28" Foreground="#b28df9" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding ViewModel.TotalBackups}" FontSize="36" FontWeight="Bold" Foreground="#b28df9" Margin="0,0,0,2" />
+                                <TextBlock Text="{DynamicResource Dashboard_TotalBackupsTitle}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="13" />
+                            </StackPanel>
+                        </Grid>
+                    </Border><Border Grid.Column="1" Margin="0,0,12,0" Padding="20" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <Grid>
+                            <ui:SymbolIcon Symbol="Document24" FontSize="28" Foreground="#b28df9" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding ViewModel.TotalSize}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Margin="0,12,32,4" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{DynamicResource Dashboard_TotalSizeTitle}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="13" />
+                            </StackPanel>
+                        </Grid>
+                    </Border><Border Grid.Column="2" Padding="20" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <Grid>
+                            <ui:SymbolIcon Symbol="Save24" FontSize="28" Foreground="#b28df9" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                            <StackPanel>
+                                <TextBlock Margin="0,12,32,4" TextTrimming="CharacterEllipsis">
+                                    <Run Text="{Binding ViewModel.FreeSpace}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                    <Run Text="/" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                    <Run Text="{Binding ViewModel.TotalDriveSize}" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                </TextBlock>
+                                <TextBlock Text="{DynamicResource Dashboard_FreeSpaceTitle}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="13" Margin="0,0,0,12" />
+                                <ProgressBar Value="{Binding ViewModel.UsedSpacePercentage}" Height="6" Background="#22ffffff" Foreground="#b28df9" BorderThickness="0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid><StackPanel Margin="0,0,0,24">
+                    <Border Margin="0,0,0,8" Padding="16" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="18" Foreground="#2ecc71" Margin="0,0,16,0" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                                <Run Text="{DynamicResource Dashboard_ProtocolStatus}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                <Run Text="{DynamicResource Dashboard_ProtocolActive}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <Border Margin="0,0,0,8" Padding="16" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Symbol="Eye24" FontSize="18" Foreground="#b28df9" Margin="0,0,16,0" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                                <Run Text="{DynamicResource Dashboard_GameAwareness}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                <Run Text="{DynamicResource Dashboard_GameAwarenessActive}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                </StackPanel><Border Visibility="{Binding ViewModel.HasNoBackups, Converter={StaticResource BoolToVis}}" Padding="32,24" CornerRadius="12" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Archive24" FontSize="24" Foreground="#b28df9" HorizontalAlignment="Center" Margin="0,0,0,12" />
+                        <TextBlock Text="{DynamicResource Dashboard_CreateFirstBackup}" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,4" />
+                        <TextBlock Text="{DynamicResource Dashboard_CreateFirstBackupDesc}" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,16" />
+                        <ui:Button Content="{DynamicResource Dashboard_GoToBackupsBtn}" Command="{Binding ViewModel.NavigateToRestoreCommand}" Icon="{ui:SymbolIcon History24}" Appearance="Secondary" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border><StackPanel Margin="0,0,0,24" Visibility="{Binding ViewModel.HasRecentBackups, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="{DynamicResource Dashboard_RecentBackups}" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Margin="0,0,0,12" />
+                    
+                    <ListView ItemsSource="{Binding ViewModel.RecentBackups}" BorderThickness="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" VirtualizingPanel.ScrollUnit="Pixel">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        
+                        <ListView.ItemTemplate>
+                            <DataTemplate><ui:Button Command="{Binding DataContext.ViewModel.NavigateToRestoreCommand, RelativeSource={RelativeSource AncestorType=Page}}" Appearance="Transparent" Padding="0" Margin="0,0,16,16" Background="Transparent" BorderThickness="0">
+                                    <Border Width="220" CornerRadius="12" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="104" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions><Border Grid.Row="0" CornerRadius="11,11,0,0" ClipToBounds="True">
+                                                <Image Source="{Binding HeaderImageUrl}" Stretch="UniformToFill" />
+                                            </Border><StackPanel Grid.Row="1" Margin="16,12">
+                                                <TextBlock Text="{Binding DisplayName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Margin="0,0,0,4" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon Symbol="Clock24" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,6,0" />
+                                                    <TextBlock Text="{Binding FormattedDate}" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </ui:Button>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

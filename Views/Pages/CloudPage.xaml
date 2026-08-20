@@ -1,0 +1,311 @@
+﻿<Page x:Class="CalyRecallNative.Views.Pages.CloudPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="CloudPage">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{DynamicResource Cloud_Title}" FontSize="28" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Margin="0,0,0,24" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
+            <StackPanel>
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions><Border Grid.Column="0" Margin="0,0,12,0" Padding="20" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,12">
+                                <StackPanel HorizontalAlignment="Left" Margin="0,0,48,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding ViewModel.AccountName}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ViewModel.AccountEmail}" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        
+                                        <Grid VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding ViewModel.AccountEmail}" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ViewModel.IsEmailVisible}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Text="••••••••••••••••" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ViewModel.IsEmailVisible}" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Grid>
+
+                                        <ui:Button Command="{Binding ViewModel.ToggleEmailVisibilityCommand}" Appearance="Transparent" Padding="4" Margin="6,0,0,0" VerticalAlignment="Center" ToolTip="Mostrar/Ocultar Email">
+                                            <ui:SymbolIcon FontSize="16" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                                                <ui:SymbolIcon.Style>
+                                                    <Style TargetType="ui:SymbolIcon">
+                                                        <Setter Property="Symbol" Value="Eye24" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ViewModel.IsEmailVisible}" Value="True">
+                                                                <Setter Property="Symbol" Value="EyeOff24" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ui:SymbolIcon.Style>
+                                            </ui:SymbolIcon>
+                                        </ui:Button>
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                                <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center" Width="40" Height="40">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ContentControl">
+                                                        <ui:SymbolIcon Symbol="Person24" FontSize="28" Foreground="#b28df9" HorizontalAlignment="Right" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ViewModel.IsAuthenticated}" Value="True">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="ContentControl">
+                                                                <Ellipse Width="40" Height="40">
+                                                                    <Ellipse.Fill>
+                                                                        <ImageBrush ImageSource="{Binding ViewModel.AccountPhotoUrl}" Stretch="UniformToFill" />
+                                                                    </Ellipse.Fill>
+                                                                </Ellipse>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                            </Grid>
+                            
+                            <TextBlock Text="{DynamicResource Cloud_Account}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="13" Margin="0,0,0,16" />
+                            <ui:Button Content="{Binding ViewModel.ConnectButtonText}" Command="{Binding ViewModel.AuthenticateCommand}" Appearance="Primary" Background="#b28df9" BorderBrush="#b28df9" Foreground="Black" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Border><Border Grid.Column="1" Padding="20" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}">
+                        <StackPanel>
+                            <ui:SymbolIcon Symbol="Cloud24" FontSize="28" Foreground="#b28df9" HorizontalAlignment="Right" />
+                            <TextBlock Margin="0,8,0,4">
+                                <Run Text="{Binding ViewModel.CloudStorageUsage}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                <Run Text="/" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                <Run Text="{Binding ViewModel.CloudTotalStorage}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </TextBlock>
+                            <TextBlock Text="{DynamicResource Cloud_Storage}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="13" Margin="0,0,0,12" />
+                            <ProgressBar Value="{Binding ViewModel.CloudStoragePercentage}" Height="6" Background="#22ffffff" Foreground="#b28df9" BorderThickness="0" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Grid Margin="0,16,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="{DynamicResource Cloud_SyncActions}" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" />
+                    
+                    <ui:TextBox Grid.Column="1" Margin="16,0" PlaceholderText="Procurar backup..." Text="{Binding ViewModel.SearchText, UpdateSourceTrigger=PropertyChanged}" Icon="{ui:SymbolIcon Search24}" ClearButtonEnabled="True" HorizontalAlignment="Stretch" MaxWidth="600" />
+                    
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <ui:Button Content="Cancelar" Command="{Binding ViewModel.ClearSelectionCommand}" Appearance="Secondary" Margin="0,0,8,0">
+                            <ui:Button.Style>
+                                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ViewModel.HasSelectedItems}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:Button.Style>
+                        </ui:Button>
+                        <ui:Button Content="{Binding ViewModel.SyncSelectedText}" Command="{Binding ViewModel.SyncSelectedCommand}" Appearance="Primary" Background="#b28df9" BorderBrush="#b28df9" Foreground="Black" Margin="0,0,8,0">
+                            <ui:Button.Style>
+                                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ViewModel.HasSelectedItems}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:Button.Style>
+                        </ui:Button>
+                        <ui:Button Content="{DynamicResource Cloud_SyncAll}" Command="{Binding ViewModel.SyncAllCommand}" Appearance="Secondary">
+                            <ui:Button.Style>
+                                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ViewModel.HasSelectedItems}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:Button.Style>
+                        </ui:Button>
+                    </StackPanel>
+                </Grid>
+
+                <ItemsControl ItemsSource="{Binding ViewModel.CloudBackups}" Margin="0,8,0,0" FocusVisualStyle="{x:Null}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border x:Name="CardBorder" Margin="0,0,16,16" Width="220" CornerRadius="12" BorderThickness="1" BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="104" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions><Border Grid.Row="0" CornerRadius="11,11,0,0" ClipToBounds="True">
+                                        <Grid>
+                                            <Image Source="{Binding HeaderImageUrl}" Stretch="UniformToFill" /><Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8">
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Opacity" Value="0" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=CardBorder, Path=IsMouseOver}" Value="False" />
+                                                                    <Condition Binding="{Binding DataContext.ViewModel.HasSelectedItems, RelativeSource={RelativeSource AncestorType=Page}}" Value="False" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <MultiDataTrigger.EnterActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2" />
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </MultiDataTrigger.EnterActions>
+                                                                <MultiDataTrigger.ExitActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2" />
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </MultiDataTrigger.ExitActions>
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+
+                                                <ToggleButton IsChecked="{Binding IsSelected, Mode=TwoWay}" Width="22" Height="22" Cursor="Hand" Padding="0" BorderThickness="0" Background="Transparent" FocusVisualStyle="{x:Null}">
+                                                    <ToggleButton.Template>
+                                                    <ControlTemplate TargetType="ToggleButton">
+                                                        <Grid><Border Background="#40000000" CornerRadius="5" Margin="1">
+                                                                <Border.Effect>
+                                                                    <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.6" Direction="270" />
+                                                                </Border.Effect>
+                                                            </Border><Border x:Name="BgBorder" Background="#80000000" BorderBrush="#A0FFFFFF" BorderThickness="1.5" CornerRadius="5" Margin="1" /><ui:SymbolIcon x:Name="CheckIcon" Symbol="Checkmark16" Foreground="Black" FontSize="14" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                                                                <ui:SymbolIcon.RenderTransform>
+                                                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                                                                </ui:SymbolIcon.RenderTransform>
+                                                            </ui:SymbolIcon>
+                                                        </Grid>
+                                                        <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="BgBorder" Property="Background" Value="#B3000000" />
+                                                            </Trigger><Trigger Property="IsChecked" Value="True">
+                                                                <Setter TargetName="BgBorder" Property="Background" Value="#b28df9" />
+                                                                <Setter TargetName="BgBorder" Property="BorderBrush" Value="#b28df9" />
+                                                            </Trigger><EventTrigger RoutedEvent="ToggleButton.Checked">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.15" />
+                                                                        <DoubleAnimation Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.25">
+                                                                            <DoubleAnimation.EasingFunction>
+                                                                                <BackEase Amplitude="0.5" EasingMode="EaseOut" />
+                                                                            </DoubleAnimation.EasingFunction>
+                                                                        </DoubleAnimation>
+                                                                        <DoubleAnimation Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.25">
+                                                                            <DoubleAnimation.EasingFunction>
+                                                                                <BackEase Amplitude="0.5" EasingMode="EaseOut" />
+                                                                            </DoubleAnimation.EasingFunction>
+                                                                        </DoubleAnimation>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1" />
+                                                                        <DoubleAnimation Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.5" Duration="0:0:0.1" />
+                                                                        <DoubleAnimation Storyboard.TargetName="CheckIcon" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.5" Duration="0:0:0.1" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </ToggleButton.Template>
+                                            </ToggleButton>
+                                            </Grid>
+                                        </Grid>
+                                    </Border><StackPanel Grid.Row="1" Margin="16,12">
+                                        <TextBlock Text="{Binding GameName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Margin="0,0,0,4" />
+                                        
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                            <ui:SymbolIcon Symbol="Clock24" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,6,0" />
+                                            <TextBlock Text="{Binding FormattedDate}" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                        </StackPanel>
+
+                                        <ui:Button Content="{DynamicResource Cloud_UploadBtn}" Command="{Binding DataContext.ViewModel.UploadSingleCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" Icon="{ui:SymbolIcon CloudArrowUp24}" Appearance="Secondary" HorizontalAlignment="Stretch">
+                                            <ui:Button.Style>
+                                                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DataContext.ViewModel.HasSelectedItems, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ui:Button.Style>
+                                        </ui:Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
